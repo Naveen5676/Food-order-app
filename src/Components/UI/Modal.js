@@ -4,7 +4,7 @@ import  ReactDOM  from "react-dom";
 
 const Backdrop =(props)=>{
     return ( 
-        <div className={classes.backdrop}></div>
+        <div className={classes.backdrop} onClick={props.onClose}></div>
     );
 };
 
@@ -20,7 +20,7 @@ const portalelement = document.getElementById('overlays')
 const Modal =(props)=>{
     return(
         <Fragment>
-            {ReactDOM.createPortal(<Backdrop/>, portalelement)}
+            {ReactDOM.createPortal(<Backdrop onClose={props.onClose}/>, portalelement)}
             {ReactDOM.createPortal(<ModalOverlay>{props.children}</ModalOverlay>, portalelement)}
         </Fragment>
     );
