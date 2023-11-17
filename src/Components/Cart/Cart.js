@@ -1,18 +1,25 @@
-import React from "react";
+import React ,{useContext} from "react";
 import classes from "./Cart.module.css";
 import Modal from "../UI/Modal";
+import CartContext from "../../Store/CartContext";
+
 const Cart = (props) => {
-  const cartitems = (
+  const cartctx = useContext(CartContext);
+  let totalAmount = 0
+  cartctx.items.forEach(item=>{
+    totalAmount= totalAmount+ (item.price * item.quantity)  })
+
+  const cartitems = ( 
     <ul className={classes["cart-items"]}>
-      {[
-        {
-          id: "c1",
-          name: "sushi",
-          amount: 24.0,
-          price: 12,
-        },
-      ].map((item) => (
-        <li>{item.name}</li>
+      {cartctx.items.map((item) => (
+            <li className={classes.cart}>
+            <div>
+                <h3>{item.name}</h3>
+                <div className={classes.quantity}>Quantity:{item.quantity}</div>
+                <div className={classes.price}>{item.price}</div>
+            </div>
+            </li>
+        // <li>Name:{item.name} Price:{item.price} Quantity:{item.quantity}</li>
       ))}
     </ul>
   );
@@ -22,7 +29,7 @@ const Cart = (props) => {
       {cartitems}
       <div className={classes.total}>
         <span>Total Amount</span>
-        <span> 24.26</span>
+        <span>{totalAmount}</span>
       </div>
       <div className={classes.actions}>
         <button className={classes["button--alt"]} onClick={props.onHideCart}>
