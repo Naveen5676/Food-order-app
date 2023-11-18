@@ -5,6 +5,7 @@ import CartContext from "../../../Store/CartContext";
 
 const MealItemForm =(props)=>{
 const cartctx = useContext(CartContext)
+console.log('reinistalized cartctx', cartctx)
 
     const addItemToCart =(event)=>{
         //update the catctx.items

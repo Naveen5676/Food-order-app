@@ -4,10 +4,31 @@ import CartContext from "./CartContext";
 
 const CartProvider = (props) => {
   const [items, updateItems]=useState([]);
+
+
+  // const addItemToCartHandler = (item ) => {
+  //   updateItems([...items,item]);
+  //   console.log("inside addToCartHandler", CartContext);
+  // };
+
   const addItemToCartHandler = (item) => {
-    updateItems([...items,item]);
-    console.log("inside addToCartHandler", CartContext);
+    const existingCartItemIndex = items.findIndex((cartItem) => cartItem.id === item.id);
+  
+    if (existingCartItemIndex !== -1) {
+      // Item with the same title already exists in the cart, update quantity
+      const updatedItems = [...items];
+      updatedItems[existingCartItemIndex].quantity = Number(updatedItems[existingCartItemIndex].quantity) + Number(item.quantity);
+
+      updateItems(updatedItems);
+    } else {
+      // Item doesn't exist in the cart, add it
+      updateItems((prevItems) => [...prevItems, item]);
+    }
   };
+  
+  
+    
+  
 
   const removeItemToCartHandler = (id) => {};
 
