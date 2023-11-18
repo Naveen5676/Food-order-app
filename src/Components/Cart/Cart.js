@@ -1,24 +1,44 @@
-import React ,{useContext} from "react";
+import React, { useContext } from "react";
 import classes from "./Cart.module.css";
 import Modal from "../UI/Modal";
 import CartContext from "../../Store/CartContext";
 
 const Cart = (props) => {
   const cartctx = useContext(CartContext);
-  let totalAmount = 0
-  cartctx.items.forEach(item=>{
-    totalAmount= totalAmount+ (item.price * item.quantity)  })
+  let totalAmount = 0;
+  cartctx.items.forEach((item) => {
+    totalAmount = totalAmount + item.price * item.quantity;
+  });
 
-  const cartitems = ( 
+  const onAdd = (item) => {
+    console.log(item);
+    cartctx.addQuantity(item.id)
+  };
+
+  const onRemove = (item) => {
+    if(item.quantity <= 1){
+      cartctx.removeItem(item.id)
+    }else{
+      cartctx.minusQuantity(item.id)
+    }
+
+  };
+
+
+  const cartitems = (
     <ul className={classes["cart-items"]}>
       {cartctx.items.map((item) => (
-            <li className={classes.cart}>
-            <div>
-                <h3>{item.name}</h3>
-                <div className={classes.quantity}>Quantity:{item.quantity}</div>
-                <div className={classes.price}>{item.price}</div>
-            </div>
-            </li>
+        <li className={classes.cart}>
+          <div>
+            <h3>{item.name}</h3>
+            <div className={classes.quantity}>Quantity:{item.quantity}</div>
+            <div className={classes.price}>{item.price}</div>
+          </div>
+          <div className={classes.actions}>
+          <button onClick={() => onRemove(item)}>−</button>
+          <button onClick={() => onAdd(item)}>+</button>
+          </div>
+        </li>
         // <li>Name:{item.name} Price:{item.price} Quantity:{item.quantity}</li>
       ))}
     </ul>
